@@ -1,31 +1,30 @@
 import throttle from "lodash.throttle";
 
 const form = document.querySelector('.feedback-form');
-const email = document.querySelector('input');
 const textarea = document.querySelector('textarea');
+const STORAGE_KEY = 'feedback-form-state';
 
 form.addEventListener('submit', onSubmitForm);
-form.addEventListener('input', throttle(onSaveInput, 500));
+textarea.addEventListener('input', throttle(onSaveInput, 500));
 
 textareaPopulate();
 function onSubmitForm(evt) {
     evt.preventDefault();
 
     evt.currentTarget.reset();
-    localStorage.removeItem("feedback-form-state", objMessage); 
+    localStorage.removeItem(STORAGE_KEY, form); 
 };
 
 function onSaveInput(evt) {
-    message.value = evt.currentTarget.value;
-    email.value = evt.currentTarget.value;
+    const message = evt.currentTarget.value;
+    const email = evt.currentTarget.value;
 
-    const objMessage = { email, message };
-    localStorage.setItem("feedback-form-state", objMessage);
+    localStorage.setItem(STORAGE_KEY, ({email, message}));
 };
 
-function textareaPopulate(evt) {
-    const savedMessage = localStorage.getItem("feedback-form-state");
+function textareaPopulate() {
+    const savedMessage = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (savedMessage) {
-        textarea.value = savedMessage; 
+        textarea.value = savedMessage;
     }
 };
