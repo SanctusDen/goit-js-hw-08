@@ -9,13 +9,12 @@ let formData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
 
 form.addEventListener('submit',  onSubmitForm);
 form.addEventListener('input',  throttle(onSaveInput, 500));
-// textarea.addEventListener('input', throttle(onSaveInput, 500));
 
 formPopulate();
 function onSubmitForm(evt) {
     evt.preventDefault();
 
-    if (email.value === '' || message.value === '') {
+    if (email.value === '') {
         return alert('all fields must be filled in');
     };
 
